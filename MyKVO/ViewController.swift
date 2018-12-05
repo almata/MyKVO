@@ -1,20 +1,25 @@
-//
-//  ViewController.swift
-//  MyKVO
-//
-//  Created by Albert Mata Guerra on 05/12/2018.
-//  Copyright © 2018 Albert Mata Guerra. All rights reserved.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var myLabel: UILabel!
+    
+    var porra = Porra()
+    var observation: NSKeyValueObservation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        myLabel.text = "\(porra.amount)"
+        
+        observation = porra.observe(\.amount) { object, change in
+            self.myLabel.text = "\(object.amount)"
+        }
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dvc = segue.destination as! DetailViewController
+        dvc.porra = porra
+    }
 
 }
 
